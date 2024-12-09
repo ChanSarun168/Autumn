@@ -1,0 +1,38 @@
+{
+  "name": "easy-chill",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.ts",
+    "gen:spec": "tsoa spec",
+    "gen:routes": "tsoa routes",
+    "gen:all": "npm run gen:spec && npm run gen:routes"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-jwt": "^8.4.1",
+    "mongoose": "^8.8.4",
+    "nodemon": "^3.1.7",
+    "swagger": "^0.7.5",
+    "swagger-ui-express": "^5.0.1",
+    "tsoa": "^6.5.1",
+    "winston": "^3.17.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "@types/swagger-ui-express": "^4.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
