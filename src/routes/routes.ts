@@ -22,6 +22,7 @@ const models: TsoaRoute.Models = {
             "phonenumber": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
             "profile": {"dataType":"string"},
+            "isdeleted": {"dataType":"boolean"},
         },
         "additionalProperties": false,
     },
@@ -71,6 +72,96 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'UserSignup',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/user',
+            ...(fetchMiddlewares<RequestHandler>(userController)),
+            ...(fetchMiddlewares<RequestHandler>(userController.prototype.GetAlluser)),
+
+            async function userController_GetAlluser(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new userController();
+
+              await templateService.apiHandler({
+                methodName: 'GetAlluser',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/user/:id',
+            ...(fetchMiddlewares<RequestHandler>(userController)),
+            ...(fetchMiddlewares<RequestHandler>(userController.prototype.GetUserById)),
+
+            async function userController_GetUserById(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new userController();
+
+              await templateService.apiHandler({
+                methodName: 'GetUserById',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/user/:id',
+            ...(fetchMiddlewares<RequestHandler>(userController)),
+            ...(fetchMiddlewares<RequestHandler>(userController.prototype.UpdateUser)),
+
+            async function userController_UpdateUser(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"string"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"IUser"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new userController();
+
+              await templateService.apiHandler({
+                methodName: 'UpdateUser',
                 controller,
                 response,
                 next,

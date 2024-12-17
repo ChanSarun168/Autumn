@@ -4,4 +4,5 @@ export interface IUser{
     phonenumber:string;
     password:string;
     profile?:string;
+    isdeleted?:boolean;
 }
