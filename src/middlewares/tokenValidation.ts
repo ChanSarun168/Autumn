@@ -16,8 +16,6 @@ export const verifyToken = (req: any, _res: any, next: any) => {
       role: string;
     };
 
-    console.log("token : " , decodedToken);
-
 
     req.role = decodedToken.role;
     req.id = decodedToken.id; // Attach userId to the request object

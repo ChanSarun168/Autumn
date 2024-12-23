@@ -13,9 +13,11 @@ import {
   Query,
   Route,
   SuccessResponse,
+  Request
 } from "tsoa";
 import { BaseCustomError } from "../utils/customError";
 import { generateToken } from "../utils/generate";
+import { verifyToken } from "../middlewares/tokenValidation";
 
 
 interface IuserLogin{
@@ -29,6 +31,20 @@ export class userController {
 
   constructor() {
     this.userservice = new userService();
+  }
+
+  @SuccessResponse(StatusCode.OK, "Success")
+  @Post("/info")
+  @Middlewares(verifyToken)
+  public async UserInfo(@Request() request: any):Promise<any>{
+    try{
+      const data = await this.GetUserById(request.id);
+      return {
+        data : data
+      }
+    }catch(error:unknown | any){
+      throw error;
+    }
   }
 
   @SuccessResponse(StatusCode.Created, "Create Success")

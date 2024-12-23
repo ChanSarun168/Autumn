@@ -246,6 +246,23 @@
 				}
 			}
 		},
+		"/user/info": {
+			"post": {
+				"operationId": "UserInfo",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/user": {
 			"post": {
 				"operationId": "UserSignup",
