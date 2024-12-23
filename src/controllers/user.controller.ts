@@ -17,12 +17,6 @@ import {
 import { BaseCustomError } from "../utils/customError";
 import { generateToken } from "../utils/generate";
 
-interface userdata {
-  name: string;
-  email: string;
-  phonenumber: string;
-  password: string;
-}
 
 interface IuserLogin{
     email: string;
@@ -39,14 +33,21 @@ export class userController {
 
   @SuccessResponse(StatusCode.Created, "Create Success")
   @Post("/")
-  public async UserSignup(@Body() requestBody: userdata): Promise<any> {
+  public async UserSignup(@Body() requestBody: IUser): Promise<any> {
     try {
       const data = await this.userservice.CreateUser(requestBody);
-      const jwtToken = await generateToken(data.id);
+      
+      if(data.role == "Customer"){
+        const jwtToken = await generateToken(data.id);
+        return {
+          message: "user create successfully",
+          data: data,
+          token: jwtToken
+        };
+      }
       return {
         message: "user create successfully",
-        data: data,
-        token: jwtToken
+        data: data
       };
     } catch (error: unknown | any) {
       throw error;
@@ -139,7 +140,7 @@ export class userController {
             const jwtToken = await generateToken(
                 userdata.data._id,
             );
-            return { message: "Login successful.", token:jwtToken };
+            return { message: "Login successful.", token:jwtToken , role:data.role};
         }catch(error:unknown | any){
             throw error;
         }

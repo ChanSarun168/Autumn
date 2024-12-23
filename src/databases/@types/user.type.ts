@@ -5,4 +5,5 @@ export interface IUser{
     password:string;
     profile?:string;
     isdeleted?:boolean;
+    role?:string;
 }
