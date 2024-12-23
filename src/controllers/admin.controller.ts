@@ -56,6 +56,7 @@ export class AdminController{
 
             const jwtToken = await generateToken(
                 respone.data._id,
+                respone.data.role
             );
 
             return { message: "Login successful.", token:jwtToken };

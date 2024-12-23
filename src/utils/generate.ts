@@ -13,11 +13,12 @@ export const generateVerifyToken = async () => {
   }
 };
 
-export const generateToken = async (id: string) => {
+export const generateToken = async (id: string , role:string) => {
   try {
     // JWT payload containing user information
     const payload = {
       id: id,
+      role : role
     };
 
     // Generate and return the JWT

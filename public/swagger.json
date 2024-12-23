@@ -23,6 +23,46 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Ievent": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"date": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"isSpecial": {
+						"type": "boolean"
+					},
+					"isFull": {
+						"type": "boolean"
+					},
+					"description": {
+						"type": "string"
+					},
+					"thumbail": {
+						"type": "string"
+					},
+					"booking_table": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"isdeleted": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"date",
+					"description",
+					"thumbail"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IUser": {
 				"properties": {
 					"name": {
@@ -179,6 +219,31 @@
 				},
 				"security": [],
 				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateEvent",
+				"responses": {
+					"201": {
+						"description": "Created Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Ievent"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/user": {

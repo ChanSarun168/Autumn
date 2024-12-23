@@ -38,7 +38,7 @@ export class userController {
       const data = await this.userservice.CreateUser(requestBody);
       
       if(data.role == "Customer"){
-        const jwtToken = await generateToken(data.id);
+        const jwtToken = await generateToken(data.id , data.role);
         return {
           message: "user create successfully",
           data: data,
@@ -139,6 +139,7 @@ export class userController {
             const userdata = await this.GetUserById(data.id);
             const jwtToken = await generateToken(
                 userdata.data._id,
+                userdata.data.role
             );
             return { message: "Login successful.", token:jwtToken , role:data.role};
         }catch(error:unknown | any){
