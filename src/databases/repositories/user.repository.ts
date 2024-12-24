@@ -66,7 +66,7 @@ export class UserRepository {
       }
 
       // check db to find student
-      const student = await UserModel.findById(id);
+      const student = await UserModel.findOne({ _id: id, isdeleted: false });
       if (!student) {
         const customError = new BaseCustomError(
           "Student not found. Please check the provided ID.",

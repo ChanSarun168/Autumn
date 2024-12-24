@@ -3,7 +3,7 @@ import { Ievent } from "../databases/@types/event.type";
 import { verifyToken } from "../middlewares/tokenValidation";
 import { eventservice } from "../services/event.service";
 import { StatusCode } from "../utils/consts";
-import { Body, Get, Header, Middlewares, Path, Post, Query, Route, SuccessResponse , Request } from "tsoa";
+import { Body, Get, Header, Middlewares, Path, Post, Query, Route, SuccessResponse , Request, Put, Delete } from "tsoa";
 
 @Route("/event")
 export class EventController{
@@ -40,10 +40,52 @@ export class EventController{
                   StatusCode.Forbidden
                 );
             }
-            const event = await this.eventService.CreateEvent(requestBody);
+            const Eventdata = {...requestBody	, admin_id : request.id};
+            const event = await this.eventService.CreateEvent(Eventdata);
             return {
                 message : "Event has create successfully",
                 data : event
+            }
+        }catch(error:unknown | any){
+            throw error;
+        }
+    }
+
+    @SuccessResponse(StatusCode.OK, "Success")
+    @Get("/{id}")
+    public async GetEventById(@Path() id:string):Promise<any>{
+        try{
+            const data = await this.eventService.GetEventById(id);
+            return {
+                message : "Event found!!",
+                data : data
+            }
+        }catch(error:unknown | any){
+            throw error;
+        }
+    }
+
+    @SuccessResponse(StatusCode.OK, "Success")
+    @Put("/{id}")
+    public async UpdateEvent(@Path() id:string , @Body() requestBody:Ievent):Promise<any>{
+        try{
+            const data = await this.eventService.UpdateEvent(id,requestBody);
+            return {
+                message : "Event updated successfully",
+                data : data
+            }
+        }catch(error:unknown | any){
+            throw error;
+        }
+    }
+
+    @SuccessResponse(StatusCode.OK, "Success")
+    @Delete("/{id}")
+    public async DeleteEvent(@Path() id:string):Promise<any>{
+        try{
+            const data = await this.eventService.DeleteEvent(id);
+            return {
+                message : "Event deleted successfully",
             }
         }catch(error:unknown | any){
             throw error;

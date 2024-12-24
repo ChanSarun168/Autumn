@@ -32,6 +32,9 @@
 						"type": "string",
 						"format": "date-time"
 					},
+					"time": {
+						"type": "string"
+					},
 					"isSpecial": {
 						"type": "boolean"
 					},
@@ -52,11 +55,15 @@
 					},
 					"isdeleted": {
 						"type": "boolean"
+					},
+					"admin_id": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"name",
 					"date",
+					"time",
 					"description",
 					"thumbail"
 				],
@@ -244,6 +251,90 @@
 						}
 					}
 				}
+			}
+		},
+		"/event/{id}": {
+			"get": {
+				"operationId": "GetEventById",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateEvent",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Ievent"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteEvent",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/user/info": {

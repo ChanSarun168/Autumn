@@ -30,4 +30,32 @@ export class eventservice{
             throw error;
         }
     }
+
+    async GetEventById(id:string){
+        try{
+            const data = await this.eventRepo.GetEventById(id);
+            if (!data) {
+                throw new BaseCustomError("Event not found", StatusCode.NotFound);
+              }
+            return data;
+        }catch(error:unknown | any){
+            throw error;
+        }
+    }
+
+    async UpdateEvent(id:string,data:Ievent){
+        try{
+            return await this.eventRepo.UpdateEvent(id,data);
+        }catch(error:unknown | any){
+            throw error;
+        }
+    }
+
+    async DeleteEvent(id:string){
+        try{
+            return await this.eventRepo.DeleteEvent(id);
+        }catch(error:unknown | any){
+            throw error;
+        }
+    }
 }
