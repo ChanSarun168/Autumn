@@ -8,6 +8,8 @@ import { AdminController } from './../controllers/admin.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { EventController } from './../controllers/event.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { TableController } from './../controllers/table.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { userController } from './../controllers/user.controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
@@ -34,10 +36,20 @@ const models: TsoaRoute.Models = {
             "isSpecial": {"dataType":"boolean"},
             "isFull": {"dataType":"boolean"},
             "description": {"dataType":"string","required":true},
-            "thumbail": {"dataType":"string","required":true},
+            "thumbnail": {"dataType":"string","required":true},
             "booking_table": {"dataType":"array","array":{"dataType":"string"}},
             "isdeleted": {"dataType":"boolean"},
             "admin_id": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ITable": {
+        "dataType": "refObject",
+        "properties": {
+            "table_no": {"dataType":"string","required":true},
+            "capacity": {"dataType":"double","required":true},
+            "isdeleted": {"dataType":"boolean"},
         },
         "additionalProperties": false,
     },
@@ -312,6 +324,156 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'DeleteEvent',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/table',
+            ...(fetchMiddlewares<RequestHandler>(TableController)),
+            ...(fetchMiddlewares<RequestHandler>(TableController.prototype.createTable)),
+
+            async function TableController_createTable(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"ITable"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TableController();
+
+              await templateService.apiHandler({
+                methodName: 'createTable',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 201,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/table',
+            ...(fetchMiddlewares<RequestHandler>(TableController)),
+            ...(fetchMiddlewares<RequestHandler>(TableController.prototype.GetAllTable)),
+
+            async function TableController_GetAllTable(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TableController();
+
+              await templateService.apiHandler({
+                methodName: 'GetAllTable',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/table/:tableId',
+            ...(fetchMiddlewares<RequestHandler>(TableController)),
+            ...(fetchMiddlewares<RequestHandler>(TableController.prototype.GetTable)),
+
+            async function TableController_GetTable(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TableController();
+
+              await templateService.apiHandler({
+                methodName: 'GetTable',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/table/:tableId',
+            ...(fetchMiddlewares<RequestHandler>(TableController)),
+            ...(fetchMiddlewares<RequestHandler>(TableController.prototype.UpdateTable)),
+
+            async function TableController_UpdateTable(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"ITable"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TableController();
+
+              await templateService.apiHandler({
+                methodName: 'UpdateTable',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/table/:tableId',
+            ...(fetchMiddlewares<RequestHandler>(TableController)),
+            ...(fetchMiddlewares<RequestHandler>(TableController.prototype.DeleteTable)),
+
+            async function TableController_DeleteTable(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new TableController();
+
+              await templateService.apiHandler({
+                methodName: 'DeleteTable',
                 controller,
                 response,
                 next,

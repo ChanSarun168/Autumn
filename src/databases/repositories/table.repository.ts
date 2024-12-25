@@ -1,27 +1,41 @@
-import { BaseCustomError } from "../../utils/customError";
-import { Ievent } from "../@types/event.type";
-import { EventModel } from "../models/event.model";
 import mongoose from "mongoose";
+import { ITable } from "../@types/table.type";
+import { TableModel } from "../models/table.model";
+import { BaseCustomError } from "../../utils/customError";
 import { StatusCode } from "../../utils/consts";
 
-export class eventrepository {
-  async GetAllEvent() {
+export class tableRepository {
+  async createTable(data: ITable) {
     try {
-      return EventModel.find({ isdeleted: false });
+      return await TableModel.create(data);
     } catch (error: unknown | any) {
       throw error;
     }
   }
 
-  async CreateEvent(data: Ievent) {
+  async GetAllTable() {
     try {
-      return await EventModel.create(data);
+      return await TableModel.find({ isdeleted: false });
     } catch (error: unknown | any) {
       throw error;
     }
   }
 
-  async GetEventById(id: string) {
+  async GetTable(tableId: string) {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(tableId)) {
+        throw new BaseCustomError(
+          "Invalid Mongo Id Format",
+          StatusCode.NotFound
+        );
+      }
+      return await TableModel.findOne({ _id: tableId, isdeleted: false });
+    } catch (error: unknown | any) {
+      throw error;
+    }
+  }
+
+  async updateTable(id: string, data: ITable) {
     try {
       if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new BaseCustomError(
@@ -29,31 +43,17 @@ export class eventrepository {
           StatusCode.NotFound
         );
       }
-      return EventModel.findOne({ _id: id, isdeleted: false });
-    } catch (error: unknown | any) {
-      throw error;
-    }
-  }
-
-  async UpdateEvent(id: string, data: Ievent) {
-    try {
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new BaseCustomError(
-          "Invalid Mongo Id Format",
-          StatusCode.NotFound
-        );
-      }
-      const event = await EventModel.findOne({ _id: id, isdeleted: false });
-      if(!event){
+      const table = await TableModel.findOne({ _id: id, isdeleted: false });
+      if (!table) {
         throw new BaseCustomError("Event not found", StatusCode.NotFound);
       }
-      return EventModel.findByIdAndUpdate(id, data, { new: true });
+      return TableModel.findByIdAndUpdate(id, data, { new: true });
     } catch (error: unknown | any) {
       throw error;
     }
   }
 
-  async DeleteEvent(id: string) {
+  async deleteTable(id: string) {
     try {
       if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new BaseCustomError(
@@ -61,11 +61,15 @@ export class eventrepository {
           StatusCode.NotFound
         );
       }
-      const event = await EventModel.findOne({ _id: id, isdeleted: false });
-      if (!event) {
+      const table = await TableModel.findOne({ _id: id, isdeleted: false });
+      if (!table) {
         throw new BaseCustomError("Event not found", StatusCode.NotFound);
       }
-      return EventModel.findByIdAndUpdate(id, { isdeleted: true }, { new: true });
+      return TableModel.findByIdAndUpdate(
+        id,
+        { isdeleted: true },
+        { new: true }
+      );
     } catch (error: unknown | any) {
       throw error;
     }

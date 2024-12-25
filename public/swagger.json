@@ -44,7 +44,7 @@
 					"description": {
 						"type": "string"
 					},
-					"thumbail": {
+					"thumbnail": {
 						"type": "string"
 					},
 					"booking_table": {
@@ -65,7 +65,27 @@
 					"date",
 					"time",
 					"description",
-					"thumbail"
+					"thumbnail"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ITable": {
+				"properties": {
+					"table_no": {
+						"type": "string"
+					},
+					"capacity": {
+						"type": "number",
+						"format": "double"
+					},
+					"isdeleted": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"table_no",
+					"capacity"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -329,6 +349,132 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/table": {
+			"post": {
+				"operationId": "CreateTable",
+				"responses": {
+					"201": {
+						"description": "Created Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITable"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllTable",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/table/{tableId}": {
+			"get": {
+				"operationId": "GetTable",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateTable",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITable"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteTable",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
 						"required": true,
 						"schema": {
 							"type": "string"

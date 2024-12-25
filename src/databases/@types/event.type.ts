@@ -5,7 +5,7 @@ export interface Ievent{
     isSpecial ?: boolean;
     isFull ?: boolean;
     description:string;
-    thumbail:string;
+    thumbnail:string;
     booking_table?:string[];
     isdeleted?:boolean;
     admin_id?:string;
