@@ -27,19 +27,27 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Ievent": {
+    "IEventInfo": {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string","required":true},
-            "date": {"dataType":"datetime","required":true},
             "time": {"dataType":"string","required":true},
-            "isSpecial": {"dataType":"boolean"},
-            "isFull": {"dataType":"boolean"},
             "description": {"dataType":"string","required":true},
+            "isSpecial": {"dataType":"boolean"},
             "thumbnail": {"dataType":"string","required":true},
-            "booking_table": {"dataType":"array","array":{"dataType":"string"}},
-            "isdeleted": {"dataType":"boolean"},
             "admin_id": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Ievent": {
+        "dataType": "refObject",
+        "properties": {
+            "date": {"dataType":"datetime","required":true},
+            "isFull": {"dataType":"boolean"},
+            "booking_info": {"dataType":"array","array":{"dataType":"string"}},
+            "isdeleted": {"dataType":"boolean"},
+            "event_info": {"dataType":"array","array":{"dataType":"refObject","ref":"IEventInfo"},"required":true},
         },
         "additionalProperties": false,
     },

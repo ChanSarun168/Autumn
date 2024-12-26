@@ -5,6 +5,15 @@ import { eventservice } from "../services/event.service";
 import { StatusCode } from "../utils/consts";
 import { Body, Get, Header, Middlewares, Path, Post, Query, Route, SuccessResponse , Request, Put, Delete } from "tsoa";
 
+export interface IeventInfo{
+    name:string;
+    date:Date;
+    time:string;
+    description:string;
+    thumbnail:string;
+    isSpecial?:boolean;
+}
+
 @Route("/event")
 export class EventController{
 

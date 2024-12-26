@@ -15,7 +15,17 @@ export class eventrepository {
 
   async CreateEvent(data: Ievent) {
     try {
-      return await EventModel.create(data);
+       // Format the date to YYYY-MM-DD
+       const formattedDate = new Date(data.date).toISOString().split('T')[0];
+      const existingEvent = await EventModel.findOne({ date: formattedDate, isdeleted: false });
+      if (existingEvent) {
+        // If an event with the same date exists, update the event_info array
+        existingEvent.event_info.push(...data.event_info);
+        return await existingEvent.save();
+      } else {
+        // If no event with the same date exists, create a new document
+        return await EventModel.create(data);
+      }
     } catch (error: unknown | any) {
       throw error;
     }

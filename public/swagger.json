@@ -23,31 +23,46 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Ievent": {
+			"IEventInfo": {
 				"properties": {
 					"name": {
 						"type": "string"
 					},
-					"date": {
-						"type": "string",
-						"format": "date-time"
-					},
 					"time": {
+						"type": "string"
+					},
+					"description": {
 						"type": "string"
 					},
 					"isSpecial": {
 						"type": "boolean"
 					},
-					"isFull": {
-						"type": "boolean"
-					},
-					"description": {
-						"type": "string"
-					},
 					"thumbnail": {
 						"type": "string"
 					},
-					"booking_table": {
+					"admin_id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"time",
+					"description",
+					"thumbnail"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Ievent": {
+				"properties": {
+					"date": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"isFull": {
+						"type": "boolean"
+					},
+					"booking_info": {
 						"items": {
 							"type": "string"
 						},
@@ -56,16 +71,16 @@
 					"isdeleted": {
 						"type": "boolean"
 					},
-					"admin_id": {
-						"type": "string"
+					"event_info": {
+						"items": {
+							"$ref": "#/components/schemas/IEventInfo"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
-					"name",
 					"date",
-					"time",
-					"description",
-					"thumbnail"
+					"event_info"
 				],
 				"type": "object",
 				"additionalProperties": false

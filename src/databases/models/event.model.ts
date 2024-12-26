@@ -1,25 +1,36 @@
 import mongoose from "mongoose";
 
+const eventInfoSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  time: { type: String, required: true },
+  description: { type: String, required: true },
+  isSpecial: { type: Boolean, default: false },
+  thumbnail: { type: String, required: true },
+  admin_id: { type: String }
+});
+
 const eventSchema = new mongoose.Schema({
-    name : {type:String , require: true},
-    date : {type : Date , require:true},
-    time: {type : String , require:true},
-    isSpecial : {type:Boolean , default : false},
-    isFull : {type : Boolean , default : false},
-    description : {type : String , require: true},
-    thumbnail : {type:String , require: true},
-    booking_table : [{type:String , ref: "table"}],
-    isdeleted : {type:Boolean , default:false},
-    admin_id : {type:String}
+  date: { type: String, required: true },
+  isFull: { type: Boolean, default: false },
+  booking_info: [{ type: String, ref: "table" }],
+  isdeleted: { type: Boolean, default: false },
+  event_info: [eventInfoSchema]
 },
 {
-    toJSON: {
-      transform(_doc, ret) {
-        delete ret._id;
-        delete ret.__v;
-      },
+  toJSON: {
+    transform(_doc, ret) {
+      delete ret._id;
+      delete ret.__v;
     },
-})
+  },
+});
 
-export const EventModel = mongoose.model("Event" , eventSchema);
+eventSchema.pre('save', function(next) {
+  if (this.isModified('date')) {
+    const date = new Date(this.date);
+    this.date = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+  }
+  next();
+});
 
+export const EventModel = mongoose.model("Event", eventSchema);
