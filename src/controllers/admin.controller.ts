@@ -1,4 +1,4 @@
-import { Body, Get, Header, Middlewares, Path, Post, Query, Route, SuccessResponse } from "tsoa";
+import { Body, Get, Header, Middlewares, Path, Post, Query, Route, SuccessResponse , Tags} from "tsoa";
 import { IAdmin } from "../databases/@types/admin.type";
 import { StatusCode } from "../utils/consts/status-code";
 import { AdminService } from "../services/admin.service";
@@ -8,6 +8,7 @@ import { AdminSchema } from "../schemas/admin.schema";
 
 
 @Route("/auth")
+@Tags("Admin")
 export class AdminController{
 
     private adminService: AdminService;

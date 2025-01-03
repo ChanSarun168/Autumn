@@ -27,6 +27,15 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IQueryParam": {
+        "dataType": "refObject",
+        "properties": {
+            "date": {"dataType":"datetime"},
+            "isSpecial": {"dataType":"boolean"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IEventInfo": {
         "dataType": "refObject",
         "properties": {
@@ -36,6 +45,7 @@ const models: TsoaRoute.Models = {
             "isSpecial": {"dataType":"boolean"},
             "thumbnail": {"dataType":"string","required":true},
             "admin_id": {"dataType":"string"},
+            "isdeleted": {"dataType":"boolean"},
         },
         "additionalProperties": false,
     },
@@ -44,8 +54,6 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "date": {"dataType":"datetime","required":true},
-            "isFull": {"dataType":"boolean"},
-            "booking_info": {"dataType":"array","array":{"dataType":"string"}},
             "isdeleted": {"dataType":"boolean"},
             "event_info": {"dataType":"array","array":{"dataType":"refObject","ref":"IEventInfo"},"required":true},
         },
@@ -198,6 +206,7 @@ export function RegisterRoutes(app: Router) {
 
             async function EventController_GetAllEvent(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    queryparam: {"in":"queries","name":"queryparam","required":true,"ref":"IQueryParam"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -290,6 +299,7 @@ export function RegisterRoutes(app: Router) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     id: {"in":"path","name":"id","required":true,"dataType":"string"},
                     requestBody: {"in":"body","name":"requestBody","required":true,"ref":"Ievent"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

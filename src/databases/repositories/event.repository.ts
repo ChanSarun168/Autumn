@@ -3,11 +3,43 @@ import { Ievent } from "../@types/event.type";
 import { EventModel } from "../models/event.model";
 import mongoose from "mongoose";
 import { StatusCode } from "../../utils/consts";
+import { IQueryParam } from "../../controllers/event.controller";
 
 export class eventrepository {
-  async GetAllEvent() {
+  async GetAllEvent(queryparam: IQueryParam) {
     try {
-      return EventModel.find({ isdeleted: false });
+      const { date, isSpecial } = queryparam;
+      const match: any = { isdeleted: false };
+
+      if (date) {
+        // Format the date to YYYY-MM-DD
+        const formattedDate = new Date(date).toISOString().split("T")[0];
+        match.date = formattedDate;
+      }
+
+      if (isSpecial !== undefined) {
+        match['event_info.isSpecial'] = isSpecial;
+      }
+
+      const pipeline:any[] = [
+        { $match: match },
+        { $unwind: '$event_info' }
+      ];
+
+      if (isSpecial !== undefined) {
+        pipeline.push({ $match: { 'event_info.isSpecial': isSpecial } });
+      }
+
+      pipeline.push({
+        $group: {
+          _id: '$_id',
+          date: { $first: '$date' },
+          isdeleted: { $first: '$isdeleted' },
+          event_info: { $push: '$event_info' }
+        }
+      });
+
+      return EventModel.aggregate(pipeline);
     } catch (error: unknown | any) {
       throw error;
     }
@@ -15,9 +47,12 @@ export class eventrepository {
 
   async CreateEvent(data: Ievent) {
     try {
-       // Format the date to YYYY-MM-DD
-       const formattedDate = new Date(data.date).toISOString().split('T')[0];
-      const existingEvent = await EventModel.findOne({ date: formattedDate, isdeleted: false });
+      // Format the date to YYYY-MM-DD
+      const formattedDate = new Date(data.date).toISOString().split("T")[0];
+      const existingEvent = await EventModel.findOne({
+        date: formattedDate,
+        isdeleted: false,
+      });
       if (existingEvent) {
         // If an event with the same date exists, update the event_info array
         existingEvent.event_info.push(...data.event_info);
@@ -54,7 +89,7 @@ export class eventrepository {
         );
       }
       const event = await EventModel.findOne({ _id: id, isdeleted: false });
-      if(!event){
+      if (!event) {
         throw new BaseCustomError("Event not found", StatusCode.NotFound);
       }
       return EventModel.findByIdAndUpdate(id, data, { new: true });
@@ -75,7 +110,11 @@ export class eventrepository {
       if (!event) {
         throw new BaseCustomError("Event not found", StatusCode.NotFound);
       }
-      return EventModel.findByIdAndUpdate(id, { isdeleted: true }, { new: true });
+      return EventModel.findByIdAndUpdate(
+        id,
+        { isdeleted: true },
+        { new: true }
+      );
     } catch (error: unknown | any) {
       throw error;
     }

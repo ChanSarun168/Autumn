@@ -14,9 +14,11 @@ import {
   Request,
   Put,
   Delete,
+  Tags
 } from "tsoa";
 
 @Route("/table")
+@Tags("Table")
 export class TableController {
   private tableservice: tableService;
 

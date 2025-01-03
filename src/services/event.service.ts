@@ -1,7 +1,8 @@
 import { BaseCustomError } from "../utils/customError";
 import { eventrepository } from "../databases/repositories/event.repository";
 import { StatusCode } from "../utils/consts";
-import { Ievent } from "src/databases/@types/event.type";
+import { Ievent } from "../databases/@types/event.type";
+import { IQueryParam } from "../controllers/event.controller";
 
 export class eventservice{
 
@@ -11,9 +12,9 @@ export class eventservice{
         this.eventRepo = new eventrepository();
     }
 
-    async GetAllEvent(){
+    async GetAllEvent(queryparam:IQueryParam){
         try{
-            const data = await this.eventRepo.GetAllEvent();
+            const data = await this.eventRepo.GetAllEvent(queryparam);
             if (data.length <= 0) {
                     throw new BaseCustomError("no user", StatusCode.NoContent);
                   }

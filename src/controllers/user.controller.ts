@@ -13,7 +13,8 @@ import {
   Query,
   Route,
   SuccessResponse,
-  Request
+  Request,
+  Tags
 } from "tsoa";
 import { BaseCustomError } from "../utils/customError";
 import { generateToken } from "../utils/generate";
@@ -26,6 +27,7 @@ interface IuserLogin{
 }
 
 @Route("/user")
+@Tags("User")
 export class userController {
   private userservice: userService;
 

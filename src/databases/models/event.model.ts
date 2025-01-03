@@ -6,20 +6,18 @@ const eventInfoSchema = new mongoose.Schema({
   description: { type: String, required: true },
   isSpecial: { type: Boolean, default: false },
   thumbnail: { type: String, required: true },
-  admin_id: { type: String }
+  admin_id: { type: String },
+  isdeleted: { type: Boolean, default: false },
 });
 
 const eventSchema = new mongoose.Schema({
   date: { type: String, required: true },
-  isFull: { type: Boolean, default: false },
-  booking_info: [{ type: String, ref: "table" }],
   isdeleted: { type: Boolean, default: false },
   event_info: [eventInfoSchema]
 },
 {
   toJSON: {
     transform(_doc, ret) {
-      delete ret._id;
       delete ret.__v;
     },
   },

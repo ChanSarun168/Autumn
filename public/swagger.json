@@ -23,6 +23,19 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"IQueryParam": {
+				"properties": {
+					"date": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"isSpecial": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IEventInfo": {
 				"properties": {
 					"name": {
@@ -42,6 +55,9 @@
 					},
 					"admin_id": {
 						"type": "string"
+					},
+					"isdeleted": {
+						"type": "boolean"
 					}
 				},
 				"required": [
@@ -58,15 +74,6 @@
 					"date": {
 						"type": "string",
 						"format": "date-time"
-					},
-					"isFull": {
-						"type": "boolean"
-					},
-					"booking_info": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
 					},
 					"isdeleted": {
 						"type": "boolean"
@@ -179,6 +186,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -206,6 +216,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -233,6 +246,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Admin"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -259,8 +275,29 @@
 						}
 					}
 				},
+				"tags": [
+					"Event"
+				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "date",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "isSpecial",
+						"required": false,
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "CreateEvent",
@@ -274,6 +311,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Event"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -301,6 +341,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Event"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -325,6 +368,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Event"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -359,6 +405,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Event"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -385,6 +434,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Table"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -410,6 +462,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Table"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -427,6 +482,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Table"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -451,6 +509,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Table"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -485,6 +546,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Table"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -511,6 +575,9 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -528,6 +595,9 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -553,6 +623,9 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -570,6 +643,9 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -594,6 +670,9 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -638,6 +717,9 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -664,6 +746,9 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
