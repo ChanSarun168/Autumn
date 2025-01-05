@@ -112,6 +112,46 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Ifood": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"type": {
+						"type": "string"
+					},
+					"thumbnail": {
+						"type": "string"
+					},
+					"isdeleted": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"price",
+					"type",
+					"thumbnail"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IQueryFood": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IUser": {
 				"properties": {
 					"name": {
@@ -356,43 +396,6 @@
 					}
 				]
 			},
-			"put": {
-				"operationId": "UpdateEvent",
-				"responses": {
-					"200": {
-						"description": "Success",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Event"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Ievent"
-							}
-						}
-					}
-				}
-			},
 			"delete": {
 				"operationId": "DeleteEvent",
 				"responses": {
@@ -419,6 +422,53 @@
 						}
 					}
 				]
+			}
+		},
+		"/event/{date}/{id}": {
+			"put": {
+				"operationId": "UpdateEvent",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Event"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "date",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Ievent"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/table": {
@@ -555,6 +605,71 @@
 						"in": "path",
 						"name": "tableId",
 						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/food": {
+			"post": {
+				"operationId": "CreateFood",
+				"responses": {
+					"201": {
+						"description": "Created Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Ifood"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllFood",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Food"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "type",
+						"required": false,
 						"schema": {
 							"type": "string"
 						}

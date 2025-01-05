@@ -81,9 +81,9 @@ export class EventController{
     }
 
     @SuccessResponse(StatusCode.OK, "Success")
-    @Put("/{id}")
+    @Put("{date}/{id}")
     @Middlewares(verifyToken)
-    public async UpdateEvent(@Path() id:string , @Body() requestBody:Ievent , @Request() request: any):Promise<any>{
+    public async UpdateEvent(@Path() id:string, @Path() date:string , @Body() requestBody:Ievent , @Request() request: any):Promise<any>{
         try{
             if (request.role == "Customer") {
                 throw new BaseCustomError(
@@ -92,7 +92,7 @@ export class EventController{
                 );
             }
             const Eventdata = {...requestBody	, admin_id : request.id};
-            const data = await this.eventService.UpdateEvent(id,Eventdata);
+            const data = await this.eventService.UpdateEvent(id,date,Eventdata);
             return {
                 message : "Event updated successfully",
                 data : data

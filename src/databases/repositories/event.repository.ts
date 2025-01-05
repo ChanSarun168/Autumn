@@ -47,12 +47,9 @@ export class eventrepository {
 
   async CreateEvent(data: Ievent) {
     try {
-      // Format the date to YYYY-MM-DD
-      const formattedDate = new Date(data.date).toISOString().split("T")[0];
-      const existingEvent = await EventModel.findOne({
-        date: formattedDate,
-        isdeleted: false,
-      });
+       // Format the date to YYYY-MM-DD
+       const formattedDate = new Date(data.date).toISOString().split('T')[0];
+      const existingEvent = await EventModel.findOne({ date: formattedDate, isdeleted: false });
       if (existingEvent) {
         // If an event with the same date exists, update the event_info array
         existingEvent.event_info.push(...data.event_info);
@@ -80,7 +77,7 @@ export class eventrepository {
     }
   }
 
-  async UpdateEvent(id: string, data: Ievent) {
+  async UpdateEvent(id: string,date:string , data: Ievent) {
     try {
       if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new BaseCustomError(
@@ -88,11 +85,12 @@ export class eventrepository {
           StatusCode.NotFound
         );
       }
-      const event = await EventModel.findOne({ _id: id, isdeleted: false });
-      if (!event) {
-        throw new BaseCustomError("Event not found", StatusCode.NotFound);
+      const day = await EventModel.findOne({ date:date ,isdeleted: false });
+      if(!day){
+        throw new BaseCustomError("No event today", StatusCode.NotFound);
       }
-      return EventModel.findByIdAndUpdate(id, data, { new: true });
+      // return EventModel.findByIdAndUpdate(id, data, { new: true });
+      return day;
     } catch (error: unknown | any) {
       throw error;
     }
@@ -110,11 +108,7 @@ export class eventrepository {
       if (!event) {
         throw new BaseCustomError("Event not found", StatusCode.NotFound);
       }
-      return EventModel.findByIdAndUpdate(
-        id,
-        { isdeleted: true },
-        { new: true }
-      );
+      return EventModel.findByIdAndUpdate(id, { isdeleted: true }, { new: true });
     } catch (error: unknown | any) {
       throw error;
     }

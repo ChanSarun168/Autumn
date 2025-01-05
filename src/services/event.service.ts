@@ -44,9 +44,9 @@ export class eventservice{
         }
     }
 
-    async UpdateEvent(id:string,data:Ievent){
+    async UpdateEvent(id:string,date:string,data:Ievent){
         try{
-            return await this.eventRepo.UpdateEvent(id,data);
+            return await this.eventRepo.UpdateEvent(id,date,data);
         }catch(error:unknown | any){
             throw error;
         }
