@@ -152,6 +152,44 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"IBookingInfo": {
+				"properties": {
+					"tables": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"customer_id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"tables"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IBooking": {
+				"properties": {
+					"date": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"booking_info": {
+						"items": {
+							"$ref": "#/components/schemas/IBookingInfo"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"date",
+					"booking_info"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IUser": {
 				"properties": {
 					"name": {
@@ -675,6 +713,54 @@
 						}
 					}
 				]
+			}
+		},
+		"/booking": {
+			"get": {
+				"operationId": "GetAllBooking",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Booking"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateBooking",
+				"responses": {
+					"201": {
+						"description": "Booking Success",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Booking"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IBooking"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/user/info": {
