@@ -152,6 +152,16 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"IQueryBooking": {
+				"properties": {
+					"date": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IBookingInfo": {
 				"properties": {
 					"tables": {
@@ -732,7 +742,17 @@
 					"Booking"
 				],
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "query",
+						"name": "date",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					}
+				]
 			},
 			"post": {
 				"operationId": "CreateBooking",

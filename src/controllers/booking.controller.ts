@@ -5,6 +5,11 @@ import { verifyToken } from "../middlewares/tokenValidation";
 import {IBooking} from "../databases/@types/booking.type";
 import { BaseCustomError } from "../utils/customError";
 
+
+export interface IQueryBooking{
+    date?:Date;
+}
+
 @Route('/booking')
 @Tags('Booking')
 
@@ -18,9 +23,9 @@ export class BookingController{
 
     @SuccessResponse(StatusCode.OK, "Success")
     @Get("/")
-    public async GetAllBooking(): Promise<any> {
+    public async GetAllBooking(@Queries() queryparam:IQueryBooking): Promise<any> {
         try{
-            const data = await this.bookingService.GetAllBooking();
+            const data = await this.bookingService.GetAllBooking(queryparam);
             return {
                 message : "Booking found!!",
                 data : data
