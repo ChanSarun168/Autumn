@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+const bookingHistorySchema = new mongoose.Schema({
+  date:    { type: String, required: true },       // stored as YYYY-MM-DD
+  tables: [{ type: String, required: true }]
+}, { _id: false });  // no separate _id for each entry
+
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, require: true },
@@ -13,6 +18,11 @@ const userSchema = new mongoose.Schema(
       enum: ["Admin", "Customer"],
       default : "Customer"
     },
+    // ← Add this block:
+    booking_history: {
+      type: [bookingHistorySchema],
+      default: []
+    }
   },
   {
     toJSON: {
