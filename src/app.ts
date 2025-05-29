@@ -5,6 +5,7 @@ import getConfig from "./utils/config";
 import * as swaggerDocument from "../public/swagger.json";
 import { RegisterRoutes } from "./routes/routes";
 import { errorHandler } from "./middlewares/error-handler";
+import cors from "cors";
 
 
 export const app = express();
@@ -13,7 +14,7 @@ const config = getConfig(process.env.NODE_ENV);
 app.use(express.json());
 // Use body-parser to parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors());
 RegisterRoutes(app);
 
 //routes

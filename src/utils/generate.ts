@@ -23,7 +23,7 @@ export const generateToken = async (id: string , role:string) => {
 
     // Generate and return the JWT
     const token = jwt.sign(payload, privateKey, {
-      expiresIn: "3d",
+      expiresIn: "1d",
       algorithm: "RS256",
     });
 

@@ -60,7 +60,7 @@ export class AdminController{
                 respone.data.role
             );
 
-            return { message: "Login successful.", token:jwtToken };
+            return { message: "Login successful.", token:jwtToken , admin_id: respone.data._id };
             
         }catch(error:unknown | any){
             throw error;
