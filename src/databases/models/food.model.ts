@@ -11,7 +11,7 @@ const FoodSchema = new Schema({
     ingredients    : { type: [String] },
     cuisine        : { type: String },
     spiciness      : { type: String },
-    preparationTime: { type: String },
+    preparationTime: { type: Number },
     
     isdeleted : {type:Boolean , default:false}
 },{

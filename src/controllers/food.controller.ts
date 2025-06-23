@@ -16,8 +16,13 @@ import { Ifood } from "../databases/@types/food.type";
 import { BaseCustomError } from "../utils/customError";
 
 export interface IQueryFood {
-    name?: string;
-    type?: string;
+  name?: string;
+  price?: { op: "lt" | "gt" | "eq"; value: number };
+  type?: string;
+  ingredients?: string[];
+  cuisine?: string;
+  spiciness?: string;
+  preparationTime?: { op: "lt" | "gt" | "eq"; value: number };
 }
 
 @Route("/food")
