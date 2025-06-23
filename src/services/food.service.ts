@@ -22,9 +22,7 @@ export class foodService {
   async GetAllFood(queryparam: IQueryFood) {
     try {
       const data = await this.foodRepo.GetAllFood(queryparam);
-      if (data.length <= 0) {
-        throw new BaseCustomError("no Food and drink", StatusCode.NoContent);
-      }
+      
       return data;
     } catch (error: unknown | any) {
       throw error;
