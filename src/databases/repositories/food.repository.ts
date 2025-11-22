@@ -4,6 +4,7 @@ import { IQueryFood } from "../../controllers/food.controller";
 
 export class foodRepository {
 
+
     async CreateFood(data: Ifood) {
         try {
             return await FoodModel.create(data);
@@ -30,76 +31,84 @@ export class foodRepository {
     }
 
     async GetAllFood(query: IQueryFood) {
-    try {
-      const filter: any       = { isdeleted: false };
-      const orConditions: any[] = [];
+  try {
+    const filter: any         = { isdeleted: false };
+    const andConditions: any[] = [];
 
-      // — name
-      if (query.name) {
-        orConditions.push({
-          name: { $regex: query.name, $options: "i" }
-        });
-      }
-
-      // — type
-      if (query.type) {
-        orConditions.push({ type: query.type });
-      }
-
-      // — ingredients (string → [string])
-      if (query.ingredients) {
-        const list = Array.isArray(query.ingredients)
-          ? query.ingredients
-          : [query.ingredients];
-        orConditions.push({ ingredients: { $in: list } });
-      }
-
-      // — cuisine
-      if (query.cuisine) {
-        orConditions.push({ cuisine: query.cuisine });
-      }
-
-      // — spiciness
-      if (query.spiciness) {
-        orConditions.push({ spiciness: query.spiciness });
-      }
-
-      // — price (ensure number)
-      if (query.price) {
-        let { op, value } = query.price;
-        value = typeof value === "string" ? Number(value) : value;
-        if (isNaN(value)) throw new Error("price.value is not a number");
-        switch (op) {
-          case "lt": orConditions.push({ price: { $lte: value } }); break;
-          case "gt": orConditions.push({ price: { $gte: value } }); break;
-          case "eq": orConditions.push({ price: value        }); break;
-        }
-      }
-
-      // — preparationTime (ensure number)
-      if (query.preparationTime) {
-        let { op, value } = query.preparationTime;
-        value = typeof value === "string" ? Number(value) : value;
-        if (isNaN(value)) throw new Error("preparationTime.value is not a number");
-        switch (op) {
-          case "lt": orConditions.push({ preparationTime: { $lte: value } }); break;
-          case "gt": orConditions.push({ preparationTime: { $gte: value } }); break;
-          case "eq": orConditions.push({ preparationTime: value        }); break;
-        }
-      }
-
-      if (orConditions.length) {
-        filter.$and = orConditions;
-        }
-
-      // *** DEBUG LOG ***
-      console.log("→ final Mongo filter:", JSON.stringify(filter, null, 2));
-      
-
-      return await FoodModel.find(filter);
-    } catch (err: any) {
-      console.error("GetAllFood ERROR:", err.message || err);
-      throw err;
+    // — name (case-insensitive substring)
+    if (query.name) {
+      andConditions.push({
+        name: { $regex: query.name, $options: "i" }
+      });
     }
+
+    // — type (case-insensitive exact)
+    if (query.type) {
+      andConditions.push({
+        type: { $regex: `^${query.type}$`, $options: "i" }
+      });
+    }
+
+    // — ingredients (case-insensitive match on any array element)
+    if (query.ingredients) {
+      const list = Array.isArray(query.ingredients)
+        ? query.ingredients
+        : [query.ingredients];
+      // build an array of regexes
+      const regexList = list.map(item => new RegExp(item, "i"));
+      andConditions.push({
+        ingredients: { $in: regexList }
+      });
+    }
+
+    // — cuisine
+    if (query.cuisine) {
+      andConditions.push({
+        cuisine: { $regex: `^${query.cuisine}$`, $options: "i" }
+      });
+    }
+
+    // — spiciness
+    if (query.spiciness) {
+      andConditions.push({
+        spiciness: { $regex: `^${query.spiciness}$`, $options: "i" }
+      });
+    }
+
+    // — price
+    if (query.price) {
+      let { op, value } = query.price;
+      value = typeof value === "string" ? Number(value) : value;
+      if (isNaN(value)) throw new Error("price.value is not a number");
+      switch (op) {
+        case "lt": andConditions.push({ price: { $lte: value } }); break;
+        case "gt": andConditions.push({ price: { $gte: value } }); break;
+        case "eq": andConditions.push({ price: value });           break;
+      }
+    }
+
+    // — preparationTime
+    if (query.preparationTime) {
+      let { op, value } = query.preparationTime;
+      value = typeof value === "string" ? Number(value) : value;
+      if (isNaN(value)) throw new Error("preparationTime.value is not a number");
+      switch (op) {
+        case "lt": andConditions.push({ preparationTime: { $lte: value } }); break;
+        case "gt": andConditions.push({ preparationTime: { $gte: value } }); break;
+        case "eq": andConditions.push({ preparationTime: value });           break;
+      }
+    }
+
+    if (andConditions.length) {
+      filter.$and = andConditions;
+    }
+
+    console.log("→ final Mongo filter:", JSON.stringify(filter, null, 2));
+    return await FoodModel.find(filter);
+  } catch (err: any) {
+    console.error("GetAllFood ERROR:", err.message || err);
+    throw err;
   }
+}
+
 }

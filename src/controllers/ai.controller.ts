@@ -63,14 +63,23 @@ export interface IQueryFood {
 }
 
 Rules:
-1. If the user mentions a cuisine (e.g. “Khmer food”, “Vietnamese dishes”, “Asian snacks”), set **cuisine** accordingly. Do **not** set **type** for that.
+1. If the user mentions a cuisine (e.g. “Khmer food”, “Vietnamese dishes”, “Asian snacks”), set **cuisine** accordingly. Do **not** set **type** for that. 
+   If the user says “made by X”, “made with X” or “cooked with X”, then:
+   - **Only** set "ingredients: [X, …]"
+   - **Do not** set "name" or "type" in those cases.
 2. Only set **type** if the user explicitly says “food” vs. “drink” (e.g. “I want a drink”). Otherwise omit **type**.
-3. Only set **ingredients** when they ask for specific ingredients (e.g. “with chicken and garlic”, “containing lentils”). 
+3. Set **ingredients** when the user uses any of:
+     - “with ___”  
+     - “containing ___”  
+     - “made with ___”  
+     - “made by ___”  
+     - “cooked with ___”  
+   Split multiple items into an array. 
 4. If they say a generic term like “I need some food” or “show me drinks”, treat that as **type** = "food" or "drink". But if they say “I need some food” without context, assume they mean any **food** (set type = "food"), not name = "food".
 5. Parse price filters (“under $10”, “over $5”, “exactly $7”) into **price** with op/value. Strip “$” from the value.
 6. Parse time filters (“under 10 minutes”, “over 5 min”, “exactly 8”) into **preparationTime** with op/value.
 7. If the user says “cooking fast” or “quick” (e.g. “food with cooking fast”), set **preparationTime**: { op: "lt", value: 15 }.
-8. If the user asks for “good price”, “low price”, “cheap”, or similar, set **price**: { op: "lt", value: 5 }.
+8. If the user asks for “good price”, “low price”, “cheap”, or similar, set **price**: { op: "lt", value: 7 }.
 9. Keep all fields you don’t set undefined; omit them entirely from the JSON.
 
 User said: "${body.message}"
@@ -104,7 +113,6 @@ User said: "${body.message}"
 
     console.log("Parsed filter:", queryFilter);
     console.log("Raw matches from DB:", rawFoods.map(f => f.preparationTime));
-    console.log("RawFoods:", JSON.stringify(rawFoods, null, 2));
     console.log("→ candidates.length:", candidates.length);
     console.log("→ candidates names:", candidates.map(f => f.name));
 
